@@ -1,6 +1,6 @@
 let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
 
-// Helper to get today's date in YYYY-MM-DD format
+// Get today's date reliably
 function getToday() {
   const now = new Date();
   const year = now.getFullYear();
@@ -53,9 +53,9 @@ function deleteEntry(index) {
 
 function updateSummary() {
   const today = getToday();
-  const now = new Date();
   
-  // Week start (Sunday)
+  const now = new Date();
+  // Week start
   const firstDayOfWeek = new Date(now);
   firstDayOfWeek.setDate(now.getDate() - now.getDay());
   const weekStart = firstDayOfWeek.toISOString().split('T')[0];
@@ -81,7 +81,7 @@ function updateSummary() {
     }
   });
 
-  // Update the UI
+  // Update UI
   document.getElementById('balance').textContent = balance + " KSh";
   
   document.getElementById('incomeToday').textContent = incomeToday;
@@ -117,7 +117,7 @@ function viewDateTransactions() {
       );
 
       const typeLabel = t.type === 'income' ? 'Income' : 'Expense';
-      const amountText = t.amount > 0 ? `+${t.amount}` : t.amount;
+      const amountText = t.amount > 0 ? `+${t.amount}` : `${t.amount}`;
 
       html += `
         <tr>
@@ -139,7 +139,7 @@ function viewDateTransactions() {
   container.innerHTML = html;
 }
 
-// Initialize everything
+// Initialize
 const today = getToday();
 document.getElementById('date').value = today;
 document.getElementById('viewDate').value = today;
