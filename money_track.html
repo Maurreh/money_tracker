@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Money Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>My Money Tracker</h1>
+
+    <!-- Balance -->
+    <div class="balance-box">
+      <h2>Current Balance</h2>
+      <p id="balance" class="big-balance">0 KSh</p>
+    </div>
+
+    <!-- Add Entry -->
+    <h3>Add New Entry</h3>
+    <input type="date" id="date">
+    <input type="text" id="description" placeholder="e.g. Githeri for lunch, Casual job">
+    <select id="type">
+      <option value="income">Income (+)</option>
+      <option value="expense">Expense (-)</option>
+    </select>
+    <input type="number" id="amount" placeholder="Amount in KSh">
+    <button onclick="addEntry()">Add Entry</button>
+
+    <!-- View by Specific Date -->
+    <div class="section">
+      <h2>View Transactions by Date</h2>
+      <input type="date" id="viewDate" onchange="viewDateTransactions()">
+      <div id="dateDetails"></div>
+    </div>
+
+    <!-- Overall Summary -->
+    <div class="section">
+      <h2> Overall Summary</h2>
+      <div class="summary-grid">
+        <div>
+          <h3>Income</h3>
+          <p>Today: <strong id="incomeToday">0</strong></p>
+          <p>Week: <strong id="incomeWeek">0</strong></p>
+          <p>Month: <strong id="incomeMonth">0</strong></p>
+        </div>
+        <div>
+          <h3>Expenses</h3>
+          <p>Today: <strong id="expenseToday">0</strong></p>
+          <p>Week: <strong id="expenseWeek">0</strong></p>
+          <p>Month: <strong id="expenseMonth">0</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
