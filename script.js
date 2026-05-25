@@ -1,6 +1,6 @@
 let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
 
-// Get today's date reliably
+// Get today's date reliably (YYYY-MM-DD)
 function getToday() {
   const now = new Date();
   const year = now.getFullYear();
@@ -55,9 +55,12 @@ function updateSummary() {
   const today = getToday();
   
   const now = new Date();
-  // Week start
+  
+  // Week starts on Monday
   const firstDayOfWeek = new Date(now);
-  firstDayOfWeek.setDate(now.getDate() - now.getDay());
+  const dayOfWeek = firstDayOfWeek.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+  const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Adjust to Monday
+  firstDayOfWeek.setDate(firstDayOfWeek.getDate() - diff);
   const weekStart = firstDayOfWeek.toISOString().split('T')[0];
 
   // Month start
