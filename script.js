@@ -1,5 +1,14 @@
 let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
 
+// Helper to get today's date in YYYY-MM-DD format
+function getToday() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function saveData() {
   localStorage.setItem('transactions', JSON.stringify(transactions));
 }
@@ -24,7 +33,7 @@ function addEntry() {
 
   saveData();
   updateSummary();
-  viewDateTransactions(); 
+  viewDateTransactions();
   clearInputs();
 }
 
@@ -42,20 +51,16 @@ function deleteEntry(index) {
   }
 }
 
-function getToday() {
-  return new Date().toISOString().split('T')[0];
-}
-
 function updateSummary() {
   const today = getToday();
   const now = new Date();
   
-  // Calculate first day of this week (Sunday)
+  // Week start (Sunday)
   const firstDayOfWeek = new Date(now);
   firstDayOfWeek.setDate(now.getDate() - now.getDay());
   const weekStart = firstDayOfWeek.toISOString().split('T')[0];
 
-  // First day of month
+  // Month start
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
 
   let incomeToday = 0, incomeWeek = 0, incomeMonth = 0;
@@ -76,7 +81,7 @@ function updateSummary() {
     }
   });
 
-  // Update UI
+  // Update the UI
   document.getElementById('balance').textContent = balance + " KSh";
   
   document.getElementById('incomeToday').textContent = incomeToday;
@@ -88,7 +93,6 @@ function updateSummary() {
   document.getElementById('expenseMonth').textContent = expenseMonth;
 }
 
-// View transactions for a specific date
 function viewDateTransactions() {
   const selectedDate = document.getElementById('viewDate').value;
   if (!selectedDate) return;
@@ -99,7 +103,7 @@ function viewDateTransactions() {
   let html = `<h3>Transactions on ${selectedDate}</h3>`;
 
   if (filtered.length === 0) {
-    html += "<p>No transactions on this date.</p>";
+    html += "<p>No transactions found on this date.</p>";
   } else {
     let dayIncome = 0, dayExpense = 0;
 
@@ -113,7 +117,7 @@ function viewDateTransactions() {
       );
 
       const typeLabel = t.type === 'income' ? 'Income' : 'Expense';
-      const amountText = t.amount > 0 ? `+${t.amount}` : `${t.amount}`;
+      const amountText = t.amount > 0 ? `+${t.amount}` : t.amount;
 
       html += `
         <tr>
@@ -135,7 +139,7 @@ function viewDateTransactions() {
   container.innerHTML = html;
 }
 
-// Initialize
+// Initialize everything
 const today = getToday();
 document.getElementById('date').value = today;
 document.getElementById('viewDate').value = today;
